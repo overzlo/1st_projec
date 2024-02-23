@@ -19,12 +19,13 @@ class App extends Component{
                 {name: 'ASA S.' , salary: 15000, increase : true, star: false, id: 4}
         
             ],
-            term: ''
+            term: '',
+            filter : false,
+            money : false
         }
         this.maxId = this.state.data.length;
     }
-
- 
+   
     deleteItem = (id) =>{
         // console.log(id);
         this.setState(({data}) =>{
@@ -54,6 +55,39 @@ class App extends Component{
           }
         })
     }
+
+    // onIncrease = (increase, items) => {
+    //     // if(increase){
+    //     // console.log("true");
+    //     // this.setState(({data}) => {
+    //     //     const old = data;
+    //     //     const newArr = data.filter(item => item.increase == true);
+    //     //     return {data: newArr}
+    //     // })}
+    //     // else {
+    //     //     console.log("False");
+    //     //     this.setState ({
+    //     //         data : old}
+    //     //     )
+    //     // }
+      
+    //         if(increase){
+
+    //             console.log(items.filter(item =>
+    //                 {return(item.increase  === true)}))
+
+
+    //             return items.filter(item =>
+    //                 {return(item.increase  === true)});
+    //         } else{return console.log(items)};
+
+    //         // if(term.length === 0)return items;
+
+    //         // return items.filter(item => {
+    //         //     return item.name.indexOf(term) > -1
+    //         // })
+    // }
+ 
 
     onToggleIncrease = (id) =>{
         console.log(`Increase this ${id}`)
@@ -111,9 +145,18 @@ class App extends Component{
     // };
     
 
-    searchemp = (items, term) => {
-        if(term.length === 0)return items;
+    searchemp_appFilter = (items, term, filter, money) => {
+        if (filter){
+            return items.filter(item => { 
+                return item.increase  === true });
+        };
+        if(money){
+            return items.filter(item => {
+                return item.salary > 999;
+            })
+        }
 
+        if(term.length === 0 )return this.state.data;
         return items.filter(item => {
             return item.name.indexOf(term) > -1
         })
@@ -123,18 +166,17 @@ class App extends Component{
     onUpdateSerch = (term) =>{
         this.setState({term});
     }
+    onIncreaseUpd = (filter) =>{
+        this.setState({filter});
+    }
+    onAllMore1000 = (money) =>{
+        this.setState({money})
+    }
 
-    // onIncrease = () => {
-    //     this.setState(({data}) =>({
-    //         data: data.filter(item => item.increase === true)
-    //     }))
-    // }
-      
-    
     render(){
-        const {data,term} = this.state;
+        const {data, term, filter, money} = this.state;
         const increased = this.state.data.filter(item =>item.increase).length;
-        const visibleData = this.searchemp(data, term);
+        const visibleData = this.searchemp_appFilter(data, term, filter, money);
     return (
         <div className="app">
             <AppInfo 
@@ -145,8 +187,8 @@ class App extends Component{
 
             <div className='search-panel'>
                 <SearchPanel onUpdateSerch = {this.onUpdateSerch}/>
-                <AppFilter increase = {this.onIncrease}/>
-
+                <AppFilter onIncreaseUpd = {this.onIncreaseUpd}
+                            onAllMore1000 = {this.onAllMore1000}/>
             </div>
 
            <EmployersList 

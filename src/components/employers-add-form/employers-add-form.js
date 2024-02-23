@@ -30,7 +30,7 @@ class EmployersAddForm extends Component {
             namePlaceholder: 'Необходимо ввести имя!',
             salaryPlaceholder: 'Необходимо ввести зарплату!'
         })
-
+        
         // this.props.onAdd(this.state.name, this.state.salary);
         // this.setState({
         //     name: '',

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import App from '../app/app';
 import './app-filter.css'
 
 
@@ -7,14 +6,27 @@ class AppFilter extends Component{
     constructor(props){
         super(props);
         this.state = {
-            increase : false
+            increase : false, 
+            money : false
         }
     }
 
     onIncrease = () =>{
+
         this.setState({
             increase: !this.state.increase
+            
         })
+
+        this.props.onIncreaseUpd(this.state.increase);
+    }
+
+    onMoney = () =>{
+        this.setState({
+            money: !this.state.money
+        })
+        const m = this.state.money;
+        this.props.onAllMore1000(m);
     }
     render(){
     return(
@@ -28,14 +40,15 @@ class AppFilter extends Component{
             <button 
                 className="btn btn-outline-light"
                 type="button"
-                // onClick={increase}
+                onClick={this.onIncrease}
                >
                 На повышение
             </button>
 
             <button 
                 className="btn btn-outline-light"
-                type="button">
+                type="button"
+                onClick={this.onMoney}>
                 З/П больше 1000$
             </button>
         </div>
